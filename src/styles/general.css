@@ -1,0 +1,277 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@600&display=swap');
+
+*, :after, :before{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    /* border: .5px solid red; */
+}
+
+:root{
+    --border-radius: .3em;
+    --padding-h: 1em;
+    /* --bg-color-filter-blur:rgb(86, 131, 156);
+    --bg-color-filter-blur-border:rgba(86, 131, 156, .5); */
+    --bg-color-filter-blur:#445679a8;
+    --bg-color-filter-blur-border:#445679a8;
+}
+
+html{
+    background-color: rgb(27, 30, 39);
+}
+
+html, textarea, input, button, pre{
+    font-family: 'Nunito', sans-serif;
+}
+
+.container {
+    width: 100%;
+}
+
+.contain{
+    max-width: min(1200px, 90%);
+    margin: 1.5em auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2em;
+}
+
+.title{
+    text-align: center;
+    width: 100%;
+    flex-grow: 1;
+    color: white;
+}
+
+.title h1{
+    color: rgb(238, 59, 134);
+}
+
+form{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+form .field{
+    width: 100%;
+}
+
+form label, #limit-words{
+    color: white;
+}
+
+#tweet, #btn-submit{
+    width: 100%;
+    padding: var(--padding-h);
+    border-radius: var(--border-radius);
+    outline: none;
+    border: 1px solid rgb(112, 112, 112);
+}
+
+#tweet{
+    height: 15vh;
+}
+
+#btn-submit, .btn-delete{
+    cursor: pointer;
+    outline: none;
+    border: none;
+}
+
+#btn-submit{
+    background-color: rgb(201, 33, 103);
+    color: white;
+}
+
+#btn-submit:hover{
+    background-color: rgb(177, 19, 85);
+}
+
+.btn-delete{
+    background-color: rgb(201, 33, 103);
+    border-radius: var(--border-radius);
+    color: white;
+}
+
+.btn-delete:hover{
+    background-color: rgb(177, 19, 85);
+}
+
+#lista-tweets{
+    /* background-image: url('../../public/images/drawkit-transport-scene-13.svg'); */
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+.tweet-item{
+    position: relative;
+    background-color: white;
+    border: 2px solid rgba(192, 192, 192, 0.493);
+    border-radius: var(--border-radius);
+    padding: 1em;
+}
+
+.tweet-item:hover{
+    border: 2px solid rgb(201, 33, 103);
+}
+
+.tweet-item .tweet-content{
+    white-space: pre-line;
+    word-wrap: break-word;
+    /* Lo de abajo es interesante */
+    /* Si excede no continua hacia abajo, deja tres puntos suspensivos */
+    /* overflow: hidden; */
+    /* text-overflow: ellipsis; */
+}
+
+.tweet-item .btn-delete{
+    position: absolute;
+    top: .5em;
+    right: .5em;
+    width: 2em;
+    height: 2em;
+    cursor: pointer;
+}
+
+.tweet-date{
+    font-size: .8em;
+    margin-bottom: 1em;
+    color: hsla(0, 0%, 0%, 0.3);
+    pointer-events: none;
+}
+
+.list-void{
+    text-align: center;
+    color: white;
+    position: relative;
+    display: none;
+    justify-content: center;
+    pointer-events: none;
+}
+
+.list-void-message{
+    width: 80%;
+    background-color: rgb(255, 255, 255);
+    padding: 1em;
+    border-radius: var(--border-radius);
+    color: rgb(21, 28, 43);
+    position: absolute;
+    top: 10%;
+}
+
+.list-void-picture{
+    width: 100%;
+}
+
+.list-void-picture img{
+    width: 100%;
+}
+
+@media (min-width: 700px){
+    .contain{
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+
+    .form, #lista-tweets{
+        width: 40%;
+    }
+
+    #lista-tweets, form{
+        border: 1px solid var(--bg-color-filter-blur-border);
+        padding: var(--padding-h);
+        border-radius: var(--border-radius);
+        position: relative;
+        z-index: 1;
+        overflow: hidden;
+    }
+
+    #lista-tweets::before,
+    form::before{
+        top: 0;
+        right: 0;
+    }
+
+    #lista-tweets::after,
+    form::after{
+        bottom: 0;
+        left: 0;
+    }
+
+    #lista-tweets::before,
+    #lista-tweets::after,
+    form::before,
+    form::after{
+        content: '';
+        position: absolute;
+        width: 100%;
+        height: 100px;
+        border-radius: 100%;
+        background: var(--bg-color-filter-blur);
+        box-shadow: 0 0 100px var(--bg-color-filter-blur),
+                0 0 100px var(--bg-color-filter-blur),
+                0 0 100px var(--bg-color-filter-blur),
+                0 0 100px var(--bg-color-filter-blur);
+        filter: blur(20px);
+        z-index: -1;
+    }
+
+    #btn-submit{
+        font-size: 1em;
+    }
+    
+    #btn-submit:hover{
+        color: white;
+    }
+}
+
+/* ESPECIAL WORD */
+
+.card{
+    width: 100%;
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.card-text{
+    color:white;
+    padding: 2em;
+    font-size: 1.5em;
+    text-align: center;
+}
+
+.card-picture{
+    max-width: min(600px, 80%);
+    border-radius: 1em;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+}
+
+.card-picture img{
+    height: 100%;
+}
+
+.btn-close{
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 3em;
+    height: 3em;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    background-color: white;
+}
+
+.btn-close:hover{
+    background-color: rgb(231, 231, 231);
+}

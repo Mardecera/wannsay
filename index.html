@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <link rel="shortcut icon" href="./favicon.png" type="image/x-icon">
+    <link rel='stylesheet' href='https://pro.fontawesome.com/releases/v5.10.0/css/all.css' integrity='sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p' crossorigin='anonymous'/>
+    <link rel='stylesheet' href='./src/styles/general.css'>
+    <title>WannSay</title>
+</head>
+<body>
+    <div class="container">
+        <div class="contain">
+            <div class="title">
+                <h1>WannSay</h1>
+                <h4>for your Notes</h4>
+            </div>
+            <div class="form">
+                <form  id="formulario">
+                    <div class="field">
+                        <label for="tweet">Nota:</label>
+                        <textarea id="tweet" required maxlength="150" placeholder="¿Que piensas hoy?"></textarea>
+                    </div>
+                    <div id="limit-words" class="field">
+                        <span id="limit-count">0</span>/150
+                    </div>
+                    <input type="submit" id="btn-submit" value="Agregar">
+                </form>
+            </div>
+            <div id="lista-tweets">
+                <div class="list-void">
+                    <div class="list-void-message">
+                        You don't have any tweet, add one.
+                    </div>
+                    <!-- <br> -->
+                    <div class="list-void-picture">
+                        <img src="./public/images/drawkit-transport-scene-14.svg" alt="svg">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> <!--#contenido-->
+</body>
+<script src='./src/scripts/app.js' type='module'></script>
+</html>
