@@ -137,11 +137,28 @@ form label, #limit-words{
     cursor: pointer;
 }
 
+.tweet-item{
+    display: flex;
+    flex-direction: column;
+    gap: 1em;
+}
+
+.tweet-head{
+    display: flex;
+    gap: 1em;
+}
+
 .tweet-date{
     font-size: .8em;
-    margin-bottom: 1em;
     color: hsla(0, 0%, 0%, 0.3);
     pointer-events: none;
+}
+
+.tweet-profile{
+    width: 2.5em;
+    height: 2.5em;
+    border-radius: .5em;
+    overflow: hidden;
 }
 
 .list-void{

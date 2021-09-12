@@ -18,32 +18,17 @@ export class UI{
     }
 
     createTweetHTML({tweet, date, time, id}) {
-        const divTweet = createElementHTML({ clases: ['tweet-item'] })
-        const divHead = createElementHTML({
-            clases: ['tweet-date'],
-            textContent: `Posted ${date} at ${this.toMeridian(time)}`
-        })
-        const divContent = createElementHTML({
-            type: 'pre',
-            clases: ['tweet-content'],
-            textContent: tweet
-        })
-        const buttonDelete = createElementHTML({
-            type: 'button',
-            textContent: 'x',
-            clases: ['btn-delete'],
-            attributes: [['data_id', id]]
-        })
+        const tweetItem = createElementHTML({ clases: ['tweet-item'] })
+        const tweetHead = this.getHeadTweet(date, time)
+        const tweetBody = this.getBodyTweet(tweet)
+        const tweetButton = this.getButtonDelete(id)
+        
+        tweetButton.onclick = () => { tweetItem.remove() }
+        tweetItem.appendChild(tweetHead)
+        tweetItem.appendChild(tweetBody)
+        tweetItem.appendChild(tweetButton)
 
-        buttonDelete.onclick = () => {
-            divTweet.remove()
-        }
-
-        divTweet.appendChild(divHead)
-        divTweet.appendChild(divContent)
-        divTweet.appendChild(buttonDelete)
-
-        return divTweet
+        return tweetItem
     }
 
     messageToYou(prhase, picture) {
@@ -81,12 +66,66 @@ export class UI{
 
     toMeridian(time) {
         const hour = +time.split(':')[0]
-        const minutes = +time.split(':')[1];
+        const minutes = time.split(':')[1];
         const meridianHour = {
             meridian: hour > 12 ? 'pm' : 'am',
             hour: hour > 12? hour - 12 : hour
         }
 
         return `${meridianHour.hour}:${minutes} ${meridianHour.meridian}`            
+    }
+
+    getHeadTweet(date = '', time = '') {
+        const head = createElementHTML({
+            clases: ['tweet-head']
+        })
+        const divProfile = createElementHTML({
+            clases: ['tweet-profile']
+        })
+        const imageProfile = createElementHTML({
+            type: 'img',
+            src: './public/images/_profile.svg'
+        })
+        const divInfo = createElementHTML({
+            clases: ['tweet-info']
+        })
+        const divUsername = createElementHTML({
+            clases: ['tweet-username'],
+            textContent: 'Me'
+        })
+
+        const divDate = createElementHTML({
+            clases: ['tweet-date'],
+            textContent: `Posted ${date} at ${this.toMeridian(time)}`
+        })
+
+        divProfile.appendChild(imageProfile)
+        divInfo.appendChild(divUsername)
+        divInfo.appendChild(divDate)
+        head.appendChild(divProfile)
+        head.appendChild(divInfo)
+
+        return head
+    }
+
+    getBodyTweet(tweet) {
+        const divContent = createElementHTML({
+            type: 'pre',
+            clases: ['tweet-content'],
+            textContent: tweet
+        })
+
+        return divContent
+    }
+
+    getButtonDelete(id) {
+        const buttonDelete = createElementHTML({
+            type: 'button',
+            textContent: 'x',
+            clases: ['btn-delete'],
+            attributes: [['data_id', id]]
+        })
+
+        return buttonDelete
     }
 }
