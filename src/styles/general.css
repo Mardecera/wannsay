@@ -34,6 +34,7 @@ html, textarea, input, button, pre{
     flex-wrap: wrap;
     justify-content: center;
     padding-top: 1.5em;
+    padding-bottom: 1.5em;
     gap: 2em;
 }
 
@@ -89,6 +90,7 @@ form label, #limit-words{
 }
 
 #tweet{
+    font-size: 1em;
     height: 10rem;
     max-height: fit-content;
     resize:none;
@@ -160,8 +162,8 @@ form label, #limit-words{
 @media (max-width: 400px){
     .tweet-item .btn-delete{
         top: -1.2em;
-        width: 2.5em;
-        height: 2.5em;
+        width: 3em;
+        height: 3em;
     }
 
     #lista-tweets{
