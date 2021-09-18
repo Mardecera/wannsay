@@ -1,6 +1,8 @@
 import { createElementHTML } from "../functions/fucntions.js"
 import * as DOM from '../functions/selectors.js'
 
+const CONFIRMATION_MESSAGE = 'Desea eliminar este tweet?'
+
 export class UI{
     showTweets(tweets) {
         DOM.listVoid.style.display = 'none'
@@ -11,28 +13,42 @@ export class UI{
         })
     }
 
-    addTweet(tweet) {
+    showTweet(tweet) {
         DOM.listVoid.style.display = 'none'
         const divTweet = this.createTweetHTML(tweet)
         DOM.tweetsList.appendChild(divTweet)
     }
 
-    createTweetHTML({tweet, date, time, id}) {
-        const tweetItem = createElementHTML({ clases: ['tweet-item'] })
-        const tweetHead = this.getHeadTweet(date, time)
-        const tweetBody = this.getBodyTweet(tweet)
-        const tweetButton = this.getButtonDelete(id)
-        
-        tweetButton.onclick = () => { tweetItem.remove() }
-        tweetItem.appendChild(tweetHead)
-        tweetItem.appendChild(tweetBody)
-        tweetItem.appendChild(tweetButton)
+    showConfirmation(id, tweetHTML) {
+        const confirmationBG = createElementHTML({clases: ['confirmation-bg']})
+        const confirmation = createElementHTML({clases: ['confirmation']})
+        const confirmationBody = createElementHTML({
+            clases: ['confirmation-body'],
+            textContent: CONFIRMATION_MESSAGE
+        })
+        const confirmationButtons = this.getConfirmationButtons(confirmationBG, tweetHTML, id)
 
-        return tweetItem
+        confirmation.appendChild(confirmationBody)
+        confirmation.appendChild(confirmationButtons)
+        confirmationBG.appendChild(confirmation)
+
+        DOM.container.appendChild(confirmationBG)
     }
 
-    messageToYou(prhase, picture) {
-        console.log('messagetoyou...')
+    createTweetHTML({id, date, time, title, content}) {
+        const tweetHTML = createElementHTML({ clases: ['tweet-item'] })
+        const tweetHead = this.getHeadTweet(date, time, title)
+        const tweetBody = this.getBodyTweet(content)
+        const tweetButton = this.getButtonDelete(id, tweetHTML)
+        
+        tweetHTML.appendChild(tweetHead)
+        tweetHTML.appendChild(tweetBody)
+        tweetHTML.appendChild(tweetButton)
+
+        return tweetHTML
+    }
+
+    messageToYou(prhase = '', picture = 0) {
         DOM.container.style.display = 'none'
 
         const card = createElementHTML({clases: ['card']})
@@ -40,7 +56,11 @@ export class UI{
             clases: ['card-text'],
             textContent: `${prhase} ${String.fromCharCode(10084)}`
         })
-        const cardPicture = createElementHTML({clases: ['card-picture']})
+        const cardPicture = createElementHTML({ clases: ['card-picture'] })
+        const pictureTag = createElementHTML({
+            type: 'img',
+            src: `./public/images/cat-${picture}.gif`
+        })
         const btnClose = createElementHTML({
             type: 'button',
             textContent: 'x',
@@ -52,7 +72,7 @@ export class UI{
             DOM.container.style.display = 'inherit'
         }
 
-        cardPicture.appendChild(picture)
+        cardPicture.appendChild(pictureTag)
         card.appendChild(cardText)
         card.appendChild(cardPicture)
         card.appendChild(btnClose)
@@ -75,7 +95,7 @@ export class UI{
         return `${meridianHour.hour}:${minutes} ${meridianHour.meridian}`            
     }
 
-    getHeadTweet(date = '', time = '') {
+    getHeadTweet(date = '', time = '', title = '') {
         const head = createElementHTML({
             clases: ['tweet-head']
         })
@@ -91,7 +111,7 @@ export class UI{
         })
         const divUsername = createElementHTML({
             clases: ['tweet-username'],
-            textContent: 'Me'
+            textContent: title
         })
 
         const divDate = createElementHTML({
@@ -118,14 +138,32 @@ export class UI{
         return divContent
     }
 
-    getButtonDelete(id) {
+    getButtonDelete(id, tweetHTML) {
         const buttonDelete = createElementHTML({
             type: 'button',
             textContent: 'x',
-            clases: ['btn-delete'],
-            attributes: [['data_id', id]]
+            clases: ['btn-delete']
         })
 
+        buttonDelete.onclick = () => this.showConfirmation(id, tweetHTML)
+
         return buttonDelete
+    }
+
+    getConfirmationButtons(confirmationHTML, tweetHTML, id) {
+        const divButtons = createElementHTML({clases: ['btns']})
+        const buttonAcepted = createElementHTML({type: 'button', clases: ['btn-acepted'], textContent: 'Aceptar'})
+        const buttonCancel = createElementHTML({ type: 'button', clases: ['btn-cancel'], textContent: 'Cancelar' })
+        
+        buttonAcepted.onclick = () => {
+            this.deleteTweet(id)
+            tweetHTML.remove()
+            confirmationHTML.remove()
+        }
+        buttonCancel.onclick = () => confirmationHTML.remove()
+        divButtons.appendChild(buttonAcepted)
+        divButtons.appendChild(buttonCancel)
+        
+        return divButtons
     }
 }

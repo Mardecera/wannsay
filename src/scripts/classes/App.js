@@ -1,4 +1,3 @@
-import { createElementHTML } from "../functions/fucntions.js"
 import * as DOM from "../functions/selectors.js"
 import { Manager } from "./Manager.js"
 
@@ -15,13 +14,8 @@ export class App{
 
             DOM.form.addEventListener('submit', (event) => {
                 event.preventDefault()
-                this.MANAGER.addTweet(DOM.tweetInput.value)
+                this.MANAGER.addTweet(this.getFormData())
                 this.formReset()
-            })
-            DOM.tweetsList.addEventListener('click', (event) => {
-                event.preventDefault()
-                const btnDeleteID = event.target.getAttribute('data_id')
-                if (!!btnDeleteID) { this.MANAGER.deleteTweet(+btnDeleteID) }
             })
         }
     }
@@ -37,5 +31,12 @@ export class App{
     formReset() {
         DOM.form.reset()
         DOM.limitWords.textContent = 0
+    }
+
+    getFormData() {
+        return {
+            title: DOM.tweetTitle.value,
+            content: DOM.tweetInput.value
+        }
     }
 }

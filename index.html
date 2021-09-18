@@ -19,13 +19,17 @@
             <div class="form">
                 <form  id="formulario">
                     <div class="field">
-                        <label for="tweet">Nota:</label>
-                        <textarea id="tweet" required maxlength="150" placeholder="¿Que piensas hoy?"></textarea>
+                        <label for="tweet-title">Title:</label>
+                        <input type="text" id="tweet-title" placeholder="Title of your note" required>
+                    </div>
+                    <div class="field">
+                        <label for="tweet">Note:</label>
+                        <textarea id="tweet" required maxlength="150" placeholder="What are you thinking?"></textarea>
                     </div>
                     <div id="limit-words" class="field">
                         <span id="limit-count">0</span>/150
                     </div>
-                    <input type="submit" id="btn-submit" value="Agregar">
+                    <input type="submit" id="btn-submit" value="Add">
                 </form>
             </div>
             <div id="lista-tweets">
@@ -33,9 +37,8 @@
                     <div class="list-void-message">
                         You don't have any tweet, add one.
                     </div>
-                    <!-- <br> -->
                     <div class="list-void-picture">
-                        <img src="./public/images/drawkit-transport-scene-14.svg" alt="svg">
+                        <img loading="lazy" decoding="async" src="./public/images/drawkit-transport-scene-14.svg" alt="svg">
                     </div>
                 </div>
             </div>

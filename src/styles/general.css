@@ -1,17 +1,14 @@
-@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;600&display=swap');
 
 *, :after, :before{
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    /* border: .5px solid red; */
 }
 
 :root{
     --border-radius: .3em;
     --padding-h: 1em;
-    /* --bg-color-filter-blur:rgb(86, 131, 156);
-    --bg-color-filter-blur-border:rgba(86, 131, 156, .5); */
     --bg-color-filter-blur:#445679a8;
     --bg-color-filter-blur-border:#445679a8;
 }
@@ -26,15 +23,31 @@ html, textarea, input, button, pre{
 
 .container {
     width: 100%;
+    height: 100vh;
+    position: relative;
 }
 
 .contain{
     max-width: min(1200px, 90%);
-    margin: 1.5em auto;
+    margin: 0 auto;
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
     justify-content: center;
+    padding-top: 1.5em;
     gap: 2em;
+}
+
+.contain .title{
+    flex-basis: 90%;
+}
+
+.contain .form{
+    flex-basis: 500px;
+}
+
+.contain #lista-tweets{
+    flex-basis: 500px;
+    height: max-content;
 }
 
 .title{
@@ -63,7 +76,11 @@ form label, #limit-words{
     color: white;
 }
 
-#tweet, #btn-submit{
+#tweet-title{
+    font-size: 1em;
+}
+
+#tweet-title, #tweet, #btn-submit{
     width: 100%;
     padding: var(--padding-h);
     border-radius: var(--border-radius);
@@ -72,7 +89,10 @@ form label, #limit-words{
 }
 
 #tweet{
-    height: 15vh;
+    height: 10rem;
+    max-height: fit-content;
+    resize:none;
+    display: block;
 }
 
 #btn-submit, .btn-delete{
@@ -101,7 +121,6 @@ form label, #limit-words{
 }
 
 #lista-tweets{
-    /* background-image: url('../../public/images/drawkit-transport-scene-13.svg'); */
     display: flex;
     flex-direction: column;
     gap: 1em;
@@ -122,30 +141,53 @@ form label, #limit-words{
 .tweet-item .tweet-content{
     white-space: pre-line;
     word-wrap: break-word;
-    /* Lo de abajo es interesante */
-    /* Si excede no continua hacia abajo, deja tres puntos suspensivos */
-    /* overflow: hidden; */
-    /* text-overflow: ellipsis; */
+    font-weight: 300;
+}
+
+.tweet-item .tweet-info{
+    font-weight: 600;
 }
 
 .tweet-item .btn-delete{
     position: absolute;
-    top: .5em;
-    right: .5em;
+    top: 1em;
+    right: 1em;
     width: 2em;
     height: 2em;
     cursor: pointer;
 }
 
+@media (max-width: 400px){
+    .tweet-item .btn-delete{
+        top: -1.2em;
+        width: 2.5em;
+        height: 2.5em;
+    }
+
+    #lista-tweets{
+        gap: 1.5em;
+    }
+}
+
 .tweet-item{
     display: flex;
     flex-direction: column;
-    gap: 1em;
+    gap: 2em;
 }
 
 .tweet-head{
     display: flex;
     gap: 1em;
+    position: relative;
+}
+
+.tweet-head:after{
+    content: '';
+    position: absolute;
+    width: calc(100% + 2em);
+    border-bottom: 1px solid rgb(209, 209, 209);
+    bottom: -1em;
+    left: -1em;
 }
 
 .tweet-date{
@@ -188,62 +230,55 @@ form label, #limit-words{
     width: 100%;
 }
 
-@media (min-width: 700px){
-    .contain{
-        flex-direction: row;
-        flex-wrap: wrap;
-    }
+.form, #lista-tweets{
+    width: 40%;
+}
 
-    .form, #lista-tweets{
-        width: 40%;
-    }
+#lista-tweets, form{
+    border: 1px solid var(--bg-color-filter-blur-border);
+    padding: var(--padding-h);
+    border-radius: var(--border-radius);
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+}
 
-    #lista-tweets, form{
-        border: 1px solid var(--bg-color-filter-blur-border);
-        padding: var(--padding-h);
-        border-radius: var(--border-radius);
-        position: relative;
-        z-index: 1;
-        overflow: hidden;
-    }
+#lista-tweets::before,
+form::before{
+    top: 0;
+    right: 0;
+}
 
-    #lista-tweets::before,
-    form::before{
-        top: 0;
-        right: 0;
-    }
+#lista-tweets::after,
+form::after{
+    bottom: 0;
+    left: 0;
+}
 
-    #lista-tweets::after,
-    form::after{
-        bottom: 0;
-        left: 0;
-    }
+#lista-tweets::before,
+#lista-tweets::after,
+form::before,
+form::after{
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100px;
+    border-radius: 100%;
+    background: var(--bg-color-filter-blur);
+    box-shadow: 0 0 100px var(--bg-color-filter-blur),
+            0 0 100px var(--bg-color-filter-blur),
+            0 0 100px var(--bg-color-filter-blur),
+            0 0 100px var(--bg-color-filter-blur);
+    filter: blur(20px);
+    z-index: -1;
+}
 
-    #lista-tweets::before,
-    #lista-tweets::after,
-    form::before,
-    form::after{
-        content: '';
-        position: absolute;
-        width: 100%;
-        height: 100px;
-        border-radius: 100%;
-        background: var(--bg-color-filter-blur);
-        box-shadow: 0 0 100px var(--bg-color-filter-blur),
-                0 0 100px var(--bg-color-filter-blur),
-                0 0 100px var(--bg-color-filter-blur),
-                0 0 100px var(--bg-color-filter-blur);
-        filter: blur(20px);
-        z-index: -1;
-    }
+#btn-submit{
+    font-size: 1em;
+}
 
-    #btn-submit{
-        font-size: 1em;
-    }
-    
-    #btn-submit:hover{
-        color: white;
-    }
+#btn-submit:hover{
+    color: white;
 }
 
 /* ESPECIAL WORD */
@@ -291,4 +326,55 @@ form label, #limit-words{
 
 .btn-close:hover{
     background-color: rgb(231, 231, 231);
+}
+
+.confirmation-bg{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.397);
+    backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    z-index: 1;
+}
+
+.confirmation{
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    padding: 1.5em;
+    gap: 1em;
+    border-radius: var(--border-radius);
+    margin-top: 10em;
+}
+
+.confirmation .btns{
+    display: flex;
+    justify-content: space-around;
+}
+
+.btn-acepted, .btn-cancel{
+    padding: .5em 1em;
+    border-radius: var(--border-radius);
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.btn-acepted{
+    background-color: rgb(238, 59, 134);
+    color: white;
+}
+
+.btn-acepted:hover{
+    background-color: rgb(219, 48, 119);
+}
+
+.btn-cancel:hover{
+    background-color: rgb(202, 202, 202);
+    color: black;
 }

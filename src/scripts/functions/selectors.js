@@ -1,3 +1,5 @@
+const $ = (element) => document.querySelector(element)
+
 const form = document.querySelector('#formulario')
 const buttonSubmit = document.querySelector('#btn-submit')
 const tweetsList = document.querySelector('#lista-tweets')
@@ -7,6 +9,7 @@ const btnDelete = document.querySelector('.btn-delete')
 const container = document.querySelector('.container')
 const body = document.querySelector('body')
 const listVoid = document.querySelector('.list-void')
+const tweetTitle = $('#tweet-title')
 
 const phrases = [
     '¡Ten un lindo día!',
@@ -29,5 +32,6 @@ export {
     btnDelete,
     container,
     body,
-    listVoid
+    listVoid,
+    tweetTitle
 }

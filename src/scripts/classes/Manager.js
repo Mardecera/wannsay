@@ -1,46 +1,43 @@
 import { UI } from "./UI.js"
-import { createElementHTML } from "../functions/fucntions.js"
 import { phrases } from "../functions/selectors.js"
 
-export class Manager{
+export class Manager extends UI{
     constructor() {
+        super()
         this.cats = []
         this.tweets = []
-        this.UI = new UI()
-        this.loadcats()
     }
 
     loadTweets() {
         this.tweets = this.getLocalStorage('tweets') || []
-        if (!!this.tweets.length) {
-            this.UI.showTweets(this.tweets)
-        } else {
-            this.UI.showAlertListVoid()
-        }
+        if (!!this.tweets.length) { this.showTweets(this.tweets) }
+        else { this.showAlertListVoid() }
     }
 
-    addTweet(tweet) {
-        const nameTest = tweet.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase()
-        const nameList = nameTest.split(' ')
-        const wordSpecial = nameList.some(item => {
+    addTweet({ title, content }) {
+        const textNormalize = content.normalize("NFD")
+        const textLower = textNormalize.replace(/[\u0300-\u036f]/g, "").toLowerCase()
+        const textList = textLower.split(' ')
+        const wordSpecial = textList.some(item => {
             return item === 'rocio' || item === 'jonathan' || item === 'juntos'
         })
 
         if (wordSpecial) {
             const prhaseRandom = phrases[Math.round(Math.random() * (phrases.length - 1))]
-            const pictureRandom = this.cats[Math.round(Math.random() * (this.cats.length - 1))]
-            this.UI.messageToYou(prhaseRandom, pictureRandom)
+            const pictureRandom = Math.round(Math.random() * 16)
+            this.messageToYou(prhaseRandom, pictureRandom)
         }
         else {
-            const tweetObj = {
+            const tweet = {
                 id: Date.now(), 
                 date: new Date().toLocaleDateString(),
                 time: new Date().toLocaleTimeString(),
-                tweet
+                title: title,
+                content: content
             }
-            this.tweets = [...this.tweets, tweetObj]
+            this.tweets = [...this.tweets, tweet]
             this.setLocalStorage('tweets')
-            this.UI.addTweet(tweetObj)
+            this.showTweet(tweet)
         }
     }
 
@@ -48,7 +45,7 @@ export class Manager{
         this.tweets = this.tweets.filter(tweet => tweet.id !== id)
         this.setLocalStorage('tweets')
         if (!!!this.tweets.length) {
-            this.UI.showAlertListVoid()
+            this.showAlertListVoid()
         }
     }
 
@@ -58,16 +55,5 @@ export class Manager{
 
     getLocalStorage(nameStorage) {
         return JSON.parse(localStorage.getItem(nameStorage))
-    }
-
-    loadcats() {
-        const cats = [...Array(17).keys()].map(element => {
-            return createElementHTML({
-                type: 'img',
-                clases: ['card-img'],
-                src: `./public/images/cat-${element}.gif`
-            })
-        })
-        this.cats = [...this.cats, ...cats]
     }
 }
